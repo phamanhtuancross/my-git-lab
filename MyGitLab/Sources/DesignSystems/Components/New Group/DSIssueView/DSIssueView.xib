@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DSIssueView" customModule="MyGitLab" customModuleProvider="target">
+            <connections>
+                <outlet property="issueMoreInfoVIew" destination="Sah-df-Hiu" id="7Sg-ca-5qj"/>
+                <outlet property="issueTitleLabel" destination="pM1-l0-smU" id="tDn-XQ-ghx"/>
+                <outlet property="shortcutIssueInfoView" destination="HUl-oG-6cM" id="b2l-aj-eI4"/>
+                <outlet property="stateStatusView" destination="fyt-KA-xMk" id="Eop-F2-XUS"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="400"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="SJ5-cB-tbW">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="400"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tkg-Vl-k5G">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="284"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fyt-KA-xMk" customClass="DSStatusView" customModule="MyGitLab" customModuleProvider="target">
+                                    <rect key="frame" x="16" y="16" width="24" height="24"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" priority="750" constant="24" id="3yn-F9-kAY"/>
+                                        <constraint firstAttribute="height" priority="750" constant="24" id="6UZ-uw-WM4"/>
+                                    </constraints>
+                                </view>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pM1-l0-smU">
+                                    <rect key="frame" x="48" y="16" width="346" height="244"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstItem="fyt-KA-xMk" firstAttribute="top" secondItem="tkg-Vl-k5G" secondAttribute="top" constant="16" id="0Ph-vz-xmc"/>
+                                <constraint firstItem="fyt-KA-xMk" firstAttribute="leading" secondItem="tkg-Vl-k5G" secondAttribute="leading" constant="16" id="7Ua-uY-DLB"/>
+                                <constraint firstAttribute="trailing" secondItem="pM1-l0-smU" secondAttribute="trailing" constant="20" id="j7F-Qh-O23"/>
+                                <constraint firstAttribute="bottom" secondItem="pM1-l0-smU" secondAttribute="bottom" constant="24" id="ndr-dG-iSg"/>
+                                <constraint firstItem="pM1-l0-smU" firstAttribute="top" secondItem="tkg-Vl-k5G" secondAttribute="top" constant="16" id="paG-Lc-WDg"/>
+                                <constraint firstItem="pM1-l0-smU" firstAttribute="leading" secondItem="fyt-KA-xMk" secondAttribute="trailing" constant="8" id="vLy-GS-mM4"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dzf-Du-TQT">
+                            <rect key="frame" x="0.0" y="288" width="414" height="60"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HUl-oG-6cM" customClass="DSIssueInfoView" customModule="MyGitLab" customModuleProvider="target">
+                                    <rect key="frame" x="16" y="0.0" width="382" height="60"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="HUl-oG-6cM" secondAttribute="bottom" id="1I5-yk-6Pt"/>
+                                <constraint firstItem="HUl-oG-6cM" firstAttribute="leading" secondItem="dzf-Du-TQT" secondAttribute="leading" constant="16" id="C08-V8-TeA"/>
+                                <constraint firstAttribute="trailing" secondItem="HUl-oG-6cM" secondAttribute="trailing" constant="16" id="RH8-fo-LLx"/>
+                                <constraint firstItem="HUl-oG-6cM" firstAttribute="top" secondItem="dzf-Du-TQT" secondAttribute="top" id="YEC-qg-dcT"/>
+                                <constraint firstAttribute="height" constant="60" id="cax-Fo-knl"/>
+                            </constraints>
+                        </view>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hvh-Xn-Nff">
+                            <rect key="frame" x="0.0" y="350" width="414" height="80"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="80" id="an6-5J-ATZ"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sah-df-Hiu" customClass="DSIssueMoreInfoView" customModule="MyGitLab" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="352" width="414" height="48"/>
+                            <color key="backgroundColor" systemColor="systemYellowColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="48" id="FHg-28-2Ng"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="SJ5-cB-tbW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="2ER-Zy-bTD"/>
+                <constraint firstItem="SJ5-cB-tbW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="7tI-8O-OPB"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="SJ5-cB-tbW" secondAttribute="bottom" id="d5z-1X-jMq"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="SJ5-cB-tbW" secondAttribute="trailing" id="xrm-lW-DbZ"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="105.79710144927537" y="121.875"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

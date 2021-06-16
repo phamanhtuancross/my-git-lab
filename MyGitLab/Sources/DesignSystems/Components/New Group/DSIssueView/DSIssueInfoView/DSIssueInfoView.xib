@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DSIssueInfoView" customModule="MyGitLab" customModuleProvider="target">
+            <connections>
+                <outlet property="descriptionLabel" destination="gbx-nU-LL5" id="GFN-LP-xsu"/>
+                <outlet property="titleLabel" destination="xlM-Wf-lRw" id="DI5-Al-hev"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="200"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xlM-Wf-lRw">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gbx-nU-LL5">
+                    <rect key="frame" x="0.0" y="56" width="414" height="144"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="xlM-Wf-lRw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="3i0-OM-Ndz"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="gbx-nU-LL5" secondAttribute="trailing" id="N8A-dm-QgK"/>
+                <constraint firstItem="gbx-nU-LL5" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="PdG-Pg-9Yo"/>
+                <constraint firstItem="gbx-nU-LL5" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="12" id="QaF-Gc-80Z"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="gbx-nU-LL5" secondAttribute="bottom" id="V6s-Yn-ctJ"/>
+                <constraint firstItem="xlM-Wf-lRw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="aUa-HD-gBj"/>
+                <constraint firstAttribute="trailing" secondItem="xlM-Wf-lRw" secondAttribute="trailing" id="azh-Fg-2HM"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="139" y="115"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

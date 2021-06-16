@@ -1,0 +1,84 @@
+query IssueList($gitlabRepository: ID!, $first: Int!, $after: String!) {
+  project(fullPath: $gitlabRepository) {
+    name
+    issues(first: $first, after: $after) {
+     pageInfo {
+        hasNextPage
+        startCursor
+        endCursor
+        hasPreviousPage
+      }
+      nodes {
+        id
+        iid
+        state
+        description
+        title
+        upvotes
+        downvotes
+        author {
+          state
+          id
+          webUrl
+          name
+          avatarUrl
+          username
+        }
+        milestone {
+          description
+          state
+          dueDate
+          iid
+          createdAt
+          title
+          updatedAt
+          id
+        }  
+      }
+    }
+  }
+}
+
+query Disscustions($gitlabRepository: ID!, $issueID: String!, $first: Int!, $after: String!){
+  project(fullPath: $gitlabRepository) {
+    name
+    issue(iid: $issueID) {
+      discussions(first: $first, after: $after) {
+        pageInfo {
+          hasNextPage
+          startCursor
+          endCursor
+          hasPreviousPage
+        }
+        nodes {
+            id
+            createdAt
+            replyId
+            resolvable
+            resolved
+            resolvedBy {
+              avatarUrl
+            }
+            resolvedAt
+            notes {
+              nodes {
+                id
+                author {
+                  avatarUrl
+                  name
+                  username
+                  id
+                  state
+                  webUrl
+                }
+                body
+                bodyHtml
+                createdAt
+                url
+              }
+            }
+          }
+    	}
+    }
+  }
+}
