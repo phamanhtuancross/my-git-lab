@@ -14,6 +14,10 @@ extension Resolver {
         
         register { MyGitLabService.default }
             .implements(MyGitLabServiceType.self)
+        
+        register { FirestoreDiscussionService.default }
+            .implements(DiscussionServiceType.self)
+        
         FirebaseApp.configure()
     }
 }

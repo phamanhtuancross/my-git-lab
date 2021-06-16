@@ -20,7 +20,7 @@ target 'MyGitLab' do
    pod 'Kingfisher'
    pod 'ProgressHUD'
    pod 'Firebase/Firestore'
- 
+   pod 'Firebase/Auth'
 
  target 'MyGitLabTests' do
     inherit! :search_paths

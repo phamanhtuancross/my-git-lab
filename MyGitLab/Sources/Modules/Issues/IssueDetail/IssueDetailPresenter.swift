@@ -21,24 +21,31 @@ protocol IssueDetailViewInterface: ViewInterface {
 }
 
 final class IssueDetailPresenter: IssueDetailPresenterInterface {
-
+    
     let loadMoreTrigger = PublishRelay<Void>()
     let refreshTrigger = PublishRelay<Void>()
     let submitDiscussionMessageTrigger = PublishRelay<String>()
     // MARK: - Private properties -
     
     private lazy var fetchDiscussionsAction = makeFetchDiscusionsAction()
+    private lazy var addDicussionAction = makeAddDicussionToThreadAction()
+    private lazy var fetchFireStoreDiscussionsAction = makeFetchFireStoreDiscussionAction()
+    private lazy var listenFireStoreDiscussionChangedAction = makeListenFireStoreDiscussionChangedAction()
+    
     private let disposeBag = DisposeBag()
     private var currentPageInfo = MGLPageInfo(hasNextPage: true, startCursor: "", endCursor: "", hasPreviousPage: false)
-
+    
+    private let gitlabDiscussionsRelay = BehaviorRelay<[MGLDiscussionViewModel]>(value: [])
+    private let firestoreDiscussionsRelay = BehaviorRelay<[MGLDiscussionViewModel]>(value: [])
+    
     private unowned let view: IssueDetailViewInterface
     private let interactor: IssueDetailInteractorInterface
     private let wireframe: IssueDetailWireframeInterface
     private let issue: MGLIssue
-
-
+    
+    
     // MARK: - Lifecycle -
-
+    
     init(
         view: IssueDetailViewInterface,
         interactor: IssueDetailInteractorInterface,
@@ -59,20 +66,32 @@ extension IssueDetailPresenter {
     private func configurePresenter() {
         view.issueViewModel.accept(DSIssueViewModel(model: issue))
         
+        Observable
+            .combineLatest(
+                firestoreDiscussionsRelay,
+                gitlabDiscussionsRelay
+            ) { $0 + $1 }
+            .map { $0.sorted(by: { first, second in
+                guard let firstDate = first.model.createdAt.toDate(), let secondDate = second.model.createdAt.toDate() else { return true }
+                return firstDate < secondDate
+            })}
+            .bind(to: view.discussionsViewModels)
+            .disposed(by: disposeBag)
+        
         fetchDiscussionsAction
             .elements
             .map { $0.discussions }
             .map {  $0.map { MGLDiscussionViewModel(model: $0) } }
             .map { [weak self] newViewModels in
                 guard (self?.currentPageInfo.hasPreviousPage).or(false),
-                      let currentViewModels = self?.view.discussionsViewModels.value
+                      let currentViewModels = self?.gitlabDiscussionsRelay.value
                 else {
                     return newViewModels
                 }
                 
                 return currentViewModels + newViewModels
             }
-            .bind(to: view.discussionsViewModels)
+            .bind(to: gitlabDiscussionsRelay)
             .disposed(by: disposeBag)
         
         fetchDiscussionsAction
@@ -82,6 +101,36 @@ extension IssueDetailPresenter {
                 self?.currentPageInfo = pageInfo
             }
             .disposed(by: disposeBag)
+        
+        addDicussionAction
+            .elements
+            .subscribeNext { result in
+                print("add dicussion succesion :\(result)")
+            }
+            .disposed(by: disposeBag)
+        
+        addDicussionAction
+            .underlyingError
+            .subscribeNext { error in
+                debugPrint("Add dicussion error: \(error)")
+            }
+            .disposed(by: disposeBag)
+//
+//        fetchFireStoreDiscussionsAction
+//            .elements
+//            .subscribeNext { dicussions in
+//                print("dissucssion : \(dicussions)")
+//            }
+//            .disposed(by: disposeBag)
+        
+        listenFireStoreDiscussionChangedAction
+            .elements
+            .map { $0.map { MGLDiscussionViewModel(model: $0) } }
+            .bind(to: firestoreDiscussionsRelay)
+            .disposed(by: disposeBag)
+        
+//        fetchFireStoreDiscussionsAction.execute()
+        listenFireStoreDiscussionChangedAction.execute()
         
         fetchDiscussionsAction.execute(currentPageInfo.endCursor)
     }
@@ -109,7 +158,7 @@ extension IssueDetailPresenter {
         
         submitDiscussionMessageTrigger
             .subscribeNext { [weak self] message in
-                
+                self?.addDicussionAction.execute(message)
             }
             .disposed(by: disposeBag)
     }
@@ -125,6 +174,27 @@ extension IssueDetailPresenter {
         return Action<String, MGLIssueDiscussionsPagination> { [weak self] after in
             guard let self = self else { return .empty() }
             return self.interactor.fetchDiscussions(after: after)
+        }
+    }
+    
+    func makeAddDicussionToThreadAction() -> Action<String, Bool> {
+        return Action<String, Bool> { [weak self] dicussionContent in
+            guard let self = self else { return .empty() }
+            return self.interactor.addDiscussionToFirebase(dicussionContent)
+        }
+    }
+    
+    func makeFetchFireStoreDiscussionAction() -> Action<Void, [MGLIssueDiscussion]> {
+        return Action<Void, [MGLIssueDiscussion]> { [weak self] in
+            guard let self = self else { return .empty() }
+            return self.interactor.fetchFireStoreDicussions()
+        }
+    }
+    
+    func makeListenFireStoreDiscussionChangedAction() -> Action<Void, [MGLIssueDiscussion]> {
+        return Action<Void, [MGLIssueDiscussion]> { [weak self] in
+            guard let self = self else { return .empty() }
+            return self.interactor.listenOnFirestoreDicussionsChange()
         }
     }
 }

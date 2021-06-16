@@ -14,11 +14,16 @@ import Resolver
 
 protocol IssueDetailInteractorInterface: InteractorInterface {
     func fetchDiscussions(after: String) -> Observable<MGLIssueDiscussionsPagination>
+    func addDiscussionToFirebase(_ discussion: String) -> Observable<Bool>
+    func fetchFireStoreDicussions() -> Observable<[MGLIssueDiscussion]>
+    func listenOnFirestoreDicussionsChange() -> Observable<[MGLIssueDiscussion]>
 }
 
 final class IssueDetailInteractor {
     
     @LazyInjected private var myGitlabService: MyGitLabServiceType
+    @LazyInjected private var disscussionService: DiscussionServiceType
+    
     let issueId: String
     
     init(issueId: String) {
@@ -29,7 +34,52 @@ final class IssueDetailInteractor {
 // MARK: - Extensions -
 
 extension IssueDetailInteractor: IssueDetailInteractorInterface {
+    
+    
     func fetchDiscussions(after: String) -> Observable<MGLIssueDiscussionsPagination> {
         return myGitlabService.fetchDiscussions(of: "gnachman/iterm2", for: issueId, first: 10, after: after)
+    }
+    
+    func addDiscussionToFirebase(_ discussion: String) -> Observable<Bool> {
+        let covertedDiscussion: MGLIssueDiscussion = discussion.convertToAnomonyousDiscussion()
+        return disscussionService.addDiscussion(covertedDiscussion, issueId: issueId)
+    }
+    
+    func fetchFireStoreDicussions() -> Observable<[MGLIssueDiscussion]> {
+        return disscussionService
+            .fetchDicussions(issueId)
+    }
+    
+    func listenOnFirestoreDicussionsChange() -> Observable<[MGLIssueDiscussion]> {
+        return disscussionService.didChangeDiscussions(issueId)
+    }
+}
+
+extension String {
+    func convertToAnomonyousDiscussion() -> MGLIssueDiscussion {
+        return .init(
+            id: UUID().uuidString,
+            createdAt: Date().iso8601withFractionalSeconds,
+            replyId: "", resolvable: false,
+            resolved: false,
+            notes: .init(
+                nodes: [
+                    .init(
+                        author: .init(
+                            state: .active,
+                            id: "Anomonyouse_iid",
+                            webUrl: "",
+                            name: "Anomonyous",
+                            avatarUrl: "https://scontent.fpnh22-3.fna.fbcdn.net/v/t1.6435-9/198338502_2055485174622518_5970564583105410500_n.jpg?_nc_cat=1&ccb=1-3&_nc_sid=730e14&_nc_ohc=fWMTR0p4zVMAX_PVJBT&tn=sL6k9L_VGxtQmd3x&_nc_ht=scontent.fpnh22-3.fna&oh=04d4914f202411e00792dc9e75340d33&oe=60CEF707",
+                            username: "Anomonyous"),
+                        id: UUID().uuidString,
+                        body: self,
+                        bodyHtml: self,
+                        createAt: Date().iso8601withFractionalSeconds,
+                        url: ""
+                    )
+                ]
+            )
+        )
     }
 }
